@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QBioForge — Quantum Forensics</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Space Grotesk', 'monospace'],
+                    },
+                    colors: {
+                        quantum: {
+                            base: '#030712',
+                            accent: '#06b6d4', // Cyan
+                            glow: '#3b82f6',   // Blue
+                            surface: '#111827'
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #030712;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        
+        /* Quantum Grid Background */
+        .bg-grid {
+            background-size: 50px 50px;
+            background-image: linear-gradient(to right, rgba(6, 182, 212, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
+            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+        }
+
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .text-glow {
+            text-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #030712; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #06b6d4; }
+    </style>
+</head>
+
+<body class="relative min-h-screen flex flex-col">
+
+    <div id="particles-js" class="fixed inset-0 z-0 opacity-40 pointer-events-none"></div>
+    <div class="fixed inset-0 z-0 bg-grid pointer-events-none"></div>
+    <div class="fixed top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-transparent to-[#030712] pointer-events-none z-0"></div>
+
+    <nav class="fixed w-full top-0 z-50 border-b border-white/5 bg-[#030712]/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            
+            <a href="/" class="flex items-center gap-2 group">
+                <div class="w-8 h-8 rounded bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center text-black font-bold text-lg group-hover:scale-110 transition-transform">Q</div>
+                <span class="font-mono text-xl font-bold tracking-tight text-white">QBIO<span class="text-cyan-400">FORGE</span></span>
+            </a>
+
+            <div class="flex items-center gap-8 font-mono text-sm">
+                <a href="/" class="text-gray-400 hover:text-cyan-400 transition-colors">HOME</a>
+                <a href="/architecture" class="text-gray-400 hover:text-cyan-400 transition-colors">SYSTEM</a>
+                <a href="/detect" class="px-5 py-2 rounded-full border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 transition-all hover:shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+                    LAUNCH SCANNER
+                </a>
+            </div>
+
+        </div>
+    </nav>
+
+    <main class="flex-grow relative z-10 pt-20">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="border-t border-white/5 bg-[#030712] relative z-10 mt-20">
+        <div class="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-center md:text-left">
+                <h4 class="font-mono text-cyan-400 font-bold mb-1">QBioForge Core</h4>
+                <p class="text-xs text-gray-500">Quantum Biological Authentication Standard v2.0</p>
+            </div>
+            <div class="text-gray-600 text-xs font-mono">
+                &copy; 2026 SECURE SYSTEMS
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 60 },
+                size: { value: 1 },
+                color: { value: "#06b6d4" },
+                opacity: { value: 0.3 },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#06b6d4",
+                    opacity: 0.1,
+                    width: 1
+                },
+                move: { enable: true, speed: 0.8 }
+            }
+        });
+    </script>
+</body>
+</html>

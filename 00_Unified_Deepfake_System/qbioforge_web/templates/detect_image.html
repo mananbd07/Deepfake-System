@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Image</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <a href="/" style="color: var(--accent); text-decoration: none; font-weight: bold; margin-bottom: 1rem; display: block; text-align: left;">← Back Home</a>
+        <h1>Upload Image</h1>
+        <p>Select a .jpg, .png file for Error Level Analysis.</p>
+        
+        <form action="/analyze-image" method="post" enctype="multipart/form-data">
+            <div class="upload-area">
+                <div class="upload-icon">🖼️</div>
+                <h3>Drag & Drop or Click to Browse</h3>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">Maximum file size: 10MB</p>
+                <input type="file" name="image" accept=".jpg,.jpeg,.png" id="fileInput" required>
+            </div>
+            
+            <p id="fileNameDisplay" style="color: var(--accent); font-weight: bold; display: none;"></p>
+            
+            <button type="submit" class="btn" id="submitBtn">Analyze Image</button>
+        </form>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                fileNameDisplay.textContent = 'Selected: ' + e.target.files[0].name;
+                fileNameDisplay.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

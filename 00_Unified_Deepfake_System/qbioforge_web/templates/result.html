@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Result</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <a href="/" style="color: var(--accent); text-decoration: none; font-weight: bold; margin-bottom: 1rem; display: block; text-align: left;">← Back Home</a>
+        <h1>Analysis Complete</h1>
+        
+        <div class="result-card">
+            <p>The {{ type }} AI has analyzed the footprint and concluded:</p>
+            <div class="verdict {{ verdict }}">{{ verdict }}</div>
+            
+            {% if confidence %}
+            <div class="confidence">Confidence Score: <span>{{ confidence }}%</span></div>
+            {% endif %}
+            
+            {% if message %}
+            <div class="confidence" style="margin-top: 1rem; color: var(--danger);">{{ message }}</div>
+            {% endif %}
+        </div>
+
+        <div style="margin-top: 2.5rem;">
+            <a href="/detect-{{ type.lower() }}" class="btn" style="background: rgba(255,255,255,0.1); box-shadow: none;">Analyze Another File</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Audio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <a href="/" style="color: var(--accent); text-decoration: none; font-weight: bold; margin-bottom: 1rem; display: block; text-align: left;">← Back Home</a>
+        <h1>Upload Audio</h1>
+        <p>Select a .wav, .mp3, or .flac file for analysis.</p>
+        
+        <form action="/analyze-audio" method="post" enctype="multipart/form-data">
+            <div class="upload-area">
+                <div class="upload-icon">🎵</div>
+                <h3>Drag & Drop or Click to Browse</h3>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">Maximum file size: 10MB</p>
+                <input type="file" name="audio" accept=".wav,.mp3,.flac" id="fileInput" required>
+            </div>
+            
+            <p id="fileNameDisplay" style="color: var(--accent); font-weight: bold; display: none;"></p>
+            
+            <button type="submit" class="btn" id="submitBtn">Analyze Audio</button>
+        </form>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                fileNameDisplay.textContent = 'Selected: ' + e.target.files[0].name;
+                fileNameDisplay.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

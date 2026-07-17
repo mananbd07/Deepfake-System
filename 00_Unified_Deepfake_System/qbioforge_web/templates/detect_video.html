@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Video</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+<body>
+    <div class="container" id="uploadContainer">
+        <a href="/" style="color: var(--accent); text-decoration: none; font-weight: bold; margin-bottom: 1rem; display: block; text-align: left;">← Back Home</a>
+        <h1>Upload Video</h1>
+        <p>Select a .mp4 video for Quantum Biological analysis.</p>
+        
+        <form id="uploadForm" enctype="multipart/form-data">
+            <div class="upload-area">
+                <div class="upload-icon">📼</div>
+                <h3>Drag & Drop or Click to Browse</h3>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">Maximum file size: 2GB</p>
+                <input type="file" name="video" accept=".mp4,.avi,.mov" id="fileInput" required>
+            </div>
+            
+            <p id="fileNameDisplay" style="color: var(--accent); font-weight: bold; display: none;"></p>
+            <button type="submit" class="btn" id="submitBtn">Analyze Video</button>
+        </form>
+    </div>
+
+    <div class="container" id="progressContainer" style="display: none;">
+        <h1>Analyzing Video</h1>
+        <p id="statusText">Initializing...</p>
+        <div style="width: 100%; background: rgba(255,255,255,0.1); border-radius: 99px; height: 20px; overflow: hidden; margin-top: 2rem;">
+            <div id="progressBar" style="width: 0%; height: 100%; background: var(--primary); transition: width 0.3s ease;"></div>
+        </div>
+    </div>
+
+    <div class="container" id="resultContainer" style="display: none;">
+        <a href="/" style="color: var(--accent); text-decoration: none; font-weight: bold; margin-bottom: 1rem; display: block; text-align: left;">← Back Home</a>
+        <h1>Analysis Complete</h1>
+        <div class="result-card">
+            <p>Quantum Engine Verdict:</p>
+            <div class="verdict" id="verdictText"></div>
+            <div class="confidence">Confidence Score: <span id="confidenceText"></span></div>
+        </div>
+        <div style="margin-top: 2.5rem;">
+            <a href="/detect-video" class="btn" style="background: rgba(255,255,255,0.1); box-shadow: none;">Analyze Another File</a>
+        </div>
+    </div>
+
+    <script>
+        const socket = io();
+        const form = document.getElementById('uploadForm');
+        
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                document.getElementById('fileNameDisplay').textContent = 'Selected: ' + e.target.files[0].name;
+                document.getElementById('fileNameDisplay').style.display = 'block';
+            }
+        });
+
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            
+            document.getElementById('uploadContainer').style.display = 'none';
+            document.getElementById('progressContainer').style.display = 'block';
+
+            try {
+                const res = await fetch('/upload', { method: 'POST', body: formData });
+                const data = await res.json();
+                if (data.path) {
+                    socket.emit('start_analysis', { path: data.path });
+                }
+            } catch (err) {
+                alert("Upload failed");
+            }
+        };
+
+        socket.on('progress', (data) => {
+            document.getElementById('progressBar').style.width = data.value + '%';
+            document.getElementById('statusText').innerText = data.stage;
+        });
+
+        socket.on('completed', (data) => {
+            document.getElementById('progressContainer').style.display = 'none';
+            document.getElementById('resultContainer').style.display = 'block';
+            
+            const verdictEl = document.getElementById('verdictText');
+            verdictEl.innerText = data.verdict;
+            verdictEl.className = 'verdict ' + data.verdict;
+            document.getElementById('confidenceText').innerText = data.confidence + '%';
+        });
+
+        socket.on('error', (data) => {
+            alert("Error: " + data.msg);
+            window.location.reload();
+        });
+    </script>
+</body>
+</html>
