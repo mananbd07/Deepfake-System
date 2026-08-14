@@ -1,0 +1,24 @@
+# Web
+Flask
+Flask-SocketIO
+
+# Computer Vision
+opencv-python-headless
+mediapipe==0.10.9
+
+# Scientific Computing
+numpy
+scipy
+
+# Audio
+librosa
+
+# Machine Learning
+scikit-learn
+joblib
+
+# Quantum Simulation
+pennylane
+
+# Utilities
+tqdm

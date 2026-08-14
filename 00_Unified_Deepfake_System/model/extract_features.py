@@ -35,6 +35,9 @@ def extract_features(file_path):
             np.std(mfcc, axis=1)
         ])
 
+        if np.isnan(features).any():
+            raise RuntimeError("Extracted features contain NaN (audio might be corrupt or too short)")
+
         return features.tolist()
 
     except Exception:

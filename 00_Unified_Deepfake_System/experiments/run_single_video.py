@@ -33,8 +33,8 @@ from model.detector import QuantumDeepfakeDetector
 
 def run(video_path: str, progress_callback=None):
 
-    print("\n⚛️  QBioForge — Quantum Deepfake Detection\n")
-    print(f"📼 Video: {video_path}\n")
+    print("\n[Q]  QBioForge - Quantum Deepfake Detection\n")
+    print(f"[Video] Video: {video_path}\n")
 
     face_detector = MediaPipeFaceDetector()
 
@@ -47,26 +47,26 @@ def run(video_path: str, progress_callback=None):
         if progress_callback:
             progress_callback(10, "Extracting cardiovascular rPPG")
 
-        print("🧬 Extracting rPPG...")
+        print("[rPPG] Extracting rPPG...")
         rppg = extract_rppg(video_path, face_detector)
 
         if progress_callback:
             progress_callback(30, "Extracting optical motion")
 
-        print("🎥 Extracting optical flow...")
+        print("[Motion] Extracting optical flow...")
         flow = extract_optical_flow(video_path, face_detector)
 
         if progress_callback:
             progress_callback(50, "Extracting micro expressions")
 
-        print("🧠 Extracting micro expressions...")
+        print("[Micro] Extracting micro expressions...")
         micro = extract_micro_expressions(video_path, face_detector)
 
         # -------------------------
         # 2. FEATURE AGGREGATION
         # -------------------------
 
-        print("📦 Packaging quantum features...")
+        print("[Package] Packaging quantum features...")
 
         feature_dict = {}
 
@@ -87,8 +87,8 @@ def run(video_path: str, progress_callback=None):
 
         if len(feature_dict) == 0:
 
-            print("⚠️ No biological signals detected")
-            print("⚠️ Activating anomaly inference mode")
+            print("[WARN] No biological signals detected")
+            print("[WARN] Activating anomaly inference mode")
 
             quantum_features = np.random.normal(0, 0.01, 32)
             degraded_mode = True
@@ -103,7 +103,7 @@ def run(video_path: str, progress_callback=None):
         if progress_callback:
             progress_callback(70, "Quantum state evolution")
 
-        print("⚛️ Initializing quantum system")
+        print("[Q] Initializing quantum system")
 
         num_qubits = int(np.ceil(np.log2(len(quantum_features))))
         quantum_features = quantum_features[: 2 ** num_qubits]
@@ -112,7 +112,7 @@ def run(video_path: str, progress_callback=None):
 
         timesteps = np.linspace(0.05, 1.0, 8).tolist()
 
-        print("⏳ Running quantum evolution")
+        print("[Time] Running quantum evolution")
         quantum_trace = pipeline.run(quantum_features, timesteps)
 
         # -------------------------
@@ -147,10 +147,10 @@ def run(video_path: str, progress_callback=None):
         # -------------------------
 
         print("\n==============================")
-        print("🧪 QUANTUM FORENSIC REPORT")
+        print("--- QUANTUM FORENSIC REPORT")
         print("==============================")
-        print(f"🔍 Verdict   : {decision['verdict']}")
-        print(f"📊 Confidence: {decision['confidence']:.2f}")
+        print(f"[Verdict] Verdict   : {decision['verdict']}")
+        print(f"[Conf] Confidence: {decision['confidence']:.2f}")
 
         return {
             "verdict": decision["verdict"],
@@ -160,7 +160,7 @@ def run(video_path: str, progress_callback=None):
 
     except Exception as e:
 
-        print("\n❌ PIPELINE FAILURE:", str(e))
+        print("\n[FAIL] PIPELINE FAILURE:", str(e))
         traceback.print_exc()
 
         return {

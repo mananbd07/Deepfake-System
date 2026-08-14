@@ -2,7 +2,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
   if (request.type === "FRAME_SCAN") {
 
-    fetch("http://localhost:5000/api/frame_scan", {
+    fetch("http://localhost:8080/api/frame_scan", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
