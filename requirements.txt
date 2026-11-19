@@ -23,5 +23,5 @@ pennylane
 # Utilities
 tqdm
 
-gunicorn
-eventlet
+gunicorn==23.0.0
+eventlet==0.33.3
