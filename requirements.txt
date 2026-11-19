@@ -17,6 +17,9 @@ librosa
 scikit-learn
 joblib
 
+
+gunicorn
+eventlet
 # Quantum Simulation
 pennylane
 
